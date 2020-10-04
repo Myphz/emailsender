@@ -1,0 +1,169 @@
+WindowManager:
+	LoginPanel:
+	EmailPanel:
+	
+<ColoredLabel@Label>
+    font_size: 30
+    font_name: "Mogra.ttf"
+    size_hint: .3, .15
+    canvas.before:
+        Color:
+            rgba: (1,.4,0,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: (0,0,0,1)
+        Line:
+            width: 1.5
+            rectangle: self.x, self.y, self.width, self.height
+
+<Padding@TextInput>
+    size_hint: .5, .15
+    font_size: 25
+    padding: [20, (self.height-self.line_height)/2]
+    padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+    canvas.before:
+    	Color:
+    		rgba: (0,0,0,1)
+    	Line:
+            width: 1.5
+            rectangle: self.x, self.y, self.width, self.height
+
+
+<Button>
+    font_name: "CuteFont.ttf"
+    font_size: 40
+    size_hint: .6, .2
+    background_color: (.157, .455, .753, 1)
+    background_normal: ""
+    canvas.before:
+        Color:
+            rgba: (0, 0, 0, 1)
+        Line:
+            width: 2
+            rectangle: self.x, self.y, self.width, self.height
+
+<LoginPanel>:
+	name: "login"
+	email: email
+	password: password
+
+	canvas.before:
+		Rectangle:
+			pos: self.pos
+            size: self.size
+            source: "bg.jpg"
+
+	ColoredLabel:
+		text: "EMAIL"
+		pos_hint: {"x": .1, "top": .85}
+
+	Padding:
+		id: email
+		hint_text: "email"
+		pos_hint: {"x": .4, "top": .85}
+
+	ColoredLabel:
+		text: "PASSWORD"
+		pos_hint: {"x": .1, "top": .65}
+
+	Padding:
+		id: password
+		hint_text: "password"
+		pos_hint: {"x": .4, "top": .65}
+
+	Button:
+		font_size: 80
+		size_hint: .6, .2
+		text: "LOGIN"
+		pos_hint: {"x": .2, "top": .3}
+		on_release:
+			if root.ConnectServer(): app.root.current = "email"
+			root.manager.transition.direction = "left"
+
+<EmailPanel>:
+	name: "email"
+	receivermail: receivermail
+	subject: subject
+	message: message
+
+	canvas.before:
+		Rectangle:
+			pos: self.pos
+			size: self.size
+			source: "bg.jpg"
+
+	Padding:
+		id: receivermail
+		hint_text: "Receiver email"
+		size_hint: .9, .1
+		pos_hint: {"x": .05, "top": .95}
+
+	Padding:
+		id: subject
+		hint_text: "Subject"
+		size_hint: .9, .1
+		pos_hint: {"x": .05, "top": .8}
+
+	TextInput:
+		id: message
+		size_hint: .9, .45
+	    font_size: 25
+	    canvas.before:
+	    	Color:
+	    		rgba: (0,0,0,1)
+	    	Line:
+	            width: 1.5
+	            rectangle: self.x, self.y, self.width, self.height
+		multiline: True
+		hint_text: "Message"
+		pos_hint: {"x": .05, "top": .65}
+
+	Button:
+		font_size: 80
+		size_hint: .35, .1
+		text: "SEND"
+		pos_hint: {"x": .1, "top": .15}
+		on_release:
+			root.SendMail()
+
+	Button:
+		background_color: (1,.4,0,1)
+		font_size: 80
+		size_hint: .35, .1
+		text: "BACK"
+		pos_hint: {"x": .525, "top": .15}
+		on_release:
+			app.root.current = "login"
+			root.manager.transition.direction = "right"
+
+<ServerError>
+    Label:
+        font_name: "Actor.ttf"
+        font_size: 15
+        color: (1,1,1,1)
+        size_hint: .4, .1
+        text: "Couldn't connect to the mail server.\nPlease check your credentials.\nNote: if you're using gmail, be sure to enable 'Allow less secure apps'."
+        pos_hint: {"x": .3, "top": .5}
+        background_color: 0,0,0,0
+
+<Success>
+    Label:
+        font_name: "Actor.ttf"
+        font_size: 15
+        color: (1,1,1,1)
+        size_hint: .4, .1
+        text: "The email has been sent."
+        pos_hint: {"x": .3, "top": .5}
+        background_color: 0,0,0,0
+
+<SendError>
+    Label:
+        font_name: "Actor.ttf"
+        font_size: 15
+        color: (1,1,1,1)
+        size_hint: .4, .1
+        text: "Couldn't send the mail!"
+        pos_hint: {"x": .3, "top": .5}
+        background_color: 0,0,0,0
