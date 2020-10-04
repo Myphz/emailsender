@@ -1,3 +1,5 @@
+from kivy.config import Config
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.properties import ObjectProperty
@@ -40,7 +42,7 @@ class MailServer:
 	def sendMail(self, receiver, message, subject):
 		fullmessage = "Subject: " + subject + "\n\n" + message
 		try:
-			self.server.sendmail(self.mail, receiver, fullmessage)
+			self.server.sendmail(self.mail, receiver, fullmessage.encode("utf-8"))
 			show_popup(Success, "Success!")
 		except Exception as e:
 			show_popup(SendError, "Error!")
