@@ -58,12 +58,11 @@ class LoginPanel(Screen):
 
     def ConnectServer(self):
     	global server
-    	self.connection = MailServer(self.email.text, self.password.text)
-    	server = self.connection
-    	if not self.connection.connectServer():
+    	server = MailServer(self.email.text, self.password.text)
+    	if not server.connectServer():
     		show_popup(ServerError, "Invalid Credentials")
     		return 0
-    	return self.connection
+    	return server
 
 class EmailPanel(Screen):
 	receivermail = ObjectProperty(None)
