@@ -11,8 +11,8 @@ import ssl
 
 
 def show_popup(c, title):
-    popupWindow = Popup(title=title, content=c(), size_hint=(.6, .4))
-    popupWindow.open()
+	popupWindow = Popup(title=title, content=c(), size_hint=(.6, .4))
+	popupWindow.open()
 
 def ConnectServer(self):
 	self.connection = MailServer(self.email, self.password)
@@ -37,32 +37,30 @@ class MailServer:
 				return 1
 			except:
 				return 0
-		return 0
 
 	def sendMail(self, receiver, message, subject):
 		fullmessage = "Subject: " + subject + "\n\n" + message
 		try:
 			self.server.sendmail(self.mail, receiver, fullmessage.encode("utf-8"))
 			show_popup(Success, "Success!")
-		except Exception as e:
+		except:
 			show_popup(SendError, "Error!")
-			print(e)
 
 
 class WindowManager(ScreenManager):
 	pass
 
 class LoginPanel(Screen):
-    email = ObjectProperty(None)
-    password = ObjectProperty(None)
+	email = ObjectProperty(None)
+	password = ObjectProperty(None)
 
-    def ConnectServer(self):
-    	global server
-    	server = MailServer(self.email.text, self.password.text)
-    	if not server.connectServer():
-    		show_popup(ServerError, "Invalid Credentials")
-    		return 0
-    	return server
+	def ConnectServer(self):
+		global server
+		server = MailServer(self.email.text, self.password.text)
+		if not server.connectServer():
+			show_popup(ServerError, "Invalid Credentials")
+			return 0
+		return server
 
 class EmailPanel(Screen):
 	receivermail = ObjectProperty(None)
@@ -73,7 +71,7 @@ class EmailPanel(Screen):
 		server.sendMail(self.receivermail.text, self.message.text, self.subject.text)
 
 class ServerError(FloatLayout):
-    pass
+	pass
 
 class Success(FloatLayout):
 	pass
@@ -84,9 +82,10 @@ class SendError(FloatLayout):
 kv = Builder.load_file("design.kv")
 
 class MyApp(App):
-    def build(self):
-        return kv
+	App.title = "Email Sender"
+	def build(self):
+		return kv
 
 
 if __name__ == "__main__":
-    MyApp().run()
+	MyApp().run()
