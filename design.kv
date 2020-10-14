@@ -4,7 +4,7 @@ WindowManager:
 	
 <ColoredLabel@Label>
     font_size: 30
-    font_name: "Mogra.ttf"
+    font_name: "images\Mogra.ttf"
     size_hint: .3, .15
     canvas.before:
         Color:
@@ -32,7 +32,7 @@ WindowManager:
 
 
 <Button>
-    font_name: "CuteFont.ttf"
+    font_name: "images\CuteFont.ttf"
     font_size: 40
     size_hint: .6, .2
     background_color: (.157, .455, .753, 1)
@@ -53,7 +53,7 @@ WindowManager:
 		Rectangle:
 			pos: self.pos
             size: self.size
-            source: "bg.jpg"
+            source: "images/bg.jpg"
 
 	ColoredLabel:
 		text: "EMAIL"
@@ -80,7 +80,7 @@ WindowManager:
 		text: "LOGIN"
 		pos_hint: {"x": .2, "top": .3}
 		on_release:
-			if root.ConnectServer(): app.root.current = "email"
+			if root.connect_server(): app.root.current = "email"
 			root.manager.transition.direction = "left"
 
 <EmailPanel>:
@@ -93,7 +93,7 @@ WindowManager:
 		Rectangle:
 			pos: self.pos
 			size: self.size
-			source: "bg.jpg"
+			source: "images/bg.jpg"
 
 	Padding:
 		id: receivermail
@@ -127,7 +127,7 @@ WindowManager:
 		text: "SEND"
 		pos_hint: {"x": .1, "top": .15}
 		on_release:
-			root.SendMail()
+			root.send_mail()
 
 	Button:
 		background_color: (1,.4,0,1)
@@ -141,7 +141,7 @@ WindowManager:
 
 <ServerError>
     Label:
-        font_name: "Actor.ttf"
+        font_name: "images\Actor.ttf"
         font_size: 15
         color: (1,1,1,1)
         size_hint: .4, .1
@@ -151,7 +151,7 @@ WindowManager:
 
 <Success>
     Label:
-        font_name: "Actor.ttf"
+        font_name: "images\Actor.ttf"
         font_size: 15
         color: (1,1,1,1)
         size_hint: .4, .1
@@ -161,7 +161,7 @@ WindowManager:
 
 <SendError>
     Label:
-        font_name: "Actor.ttf"
+        font_name: "images\Actor.ttf"
         font_size: 15
         color: (1,1,1,1)
         size_hint: .4, .1

@@ -14,7 +14,7 @@ def show_popup(c, title):
 	popupWindow = Popup(title=title, content=c(), size_hint=(.6, .4))
 	popupWindow.open()
 
-def ConnectServer(self):
+def connect_server(self):
 	self.connection = MailServer(self.email, self.password)
 	if not self.connection.connectServer():
 		show_popup(ServerError, "Invalid Credentials")
@@ -26,7 +26,7 @@ class MailServer:
 		self.mail = mail
 		self.password = password
 
-	def connectServer(self):
+	def connect_server(self):
 		self.smtp_server = "smtp-mail.outlook.com" if "outlook" in self.mail else "smtp.gmail.com" if "gmail" in self.mail else "smtp.libero.it" if "libero" in self.mail else "smtp.mail.yahoo.com" if "yahoo" in self.mail else ""
 		self.context = ssl.create_default_context()
 		self.server = smtplib.SMTP(self.smtp_server, self.port)
@@ -38,7 +38,7 @@ class MailServer:
 			except:
 				return 0
 
-	def sendMail(self, receiver, message, subject):
+	def send_mail(self, receiver, message, subject):
 		fullmessage = "Subject: " + subject + "\n\n" + message
 		try:
 			self.server.sendmail(self.mail, receiver, fullmessage.encode("utf-8"))
@@ -54,10 +54,10 @@ class LoginPanel(Screen):
 	email = ObjectProperty(None)
 	password = ObjectProperty(None)
 
-	def ConnectServer(self):
+	def connect_server(self):
 		global server
 		server = MailServer(self.email.text, self.password.text)
-		if not server.connectServer():
+		if not server.connect_server():
 			show_popup(ServerError, "Invalid Credentials")
 			return 0
 		return server
@@ -67,8 +67,8 @@ class EmailPanel(Screen):
 	subject = ObjectProperty(None)
 	message = ObjectProperty(None)
 
-	def SendMail(self):
-		server.sendMail(self.receivermail.text, self.message.text, self.subject.text)
+	def send_mail(self):
+		server.send_mail(self.receivermail.text, self.message.text, self.subject.text)
 
 class ServerError(FloatLayout):
 	pass
